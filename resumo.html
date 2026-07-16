@@ -104,6 +104,53 @@ localStorage.getItem("valorTotal");
 // CUPOM
 const btnCupom = document.getElementById("aplicarCupom");
 
+btnCupom.addEventListener("click", async () => {
+
+    const cupom = document.getElementById("cupom").value.trim();
+
+    if (!cupom) {
+        alert("Digite um cupom.");
+        return;
+    }
+
+    const resposta = await fetch("/api/validar-cupom", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            codigo: cupom
+        })
+    });
+
+    const dados = await resposta.json();
+
+    if (!dados.valido) {
+        alert("Cupom inválido.");
+        return;
+    }
+
+    const valorOriginal = Number(
+        localStorage.getItem("valorTotal")
+            .replace("R$", "")
+            .replace(",", ".")
+            .trim()
+    );
+
+    const valorFinal = valorOriginal - (valorOriginal * dados.desconto / 100);
+
+    document.getElementById("resumoTotal").innerText =
+        "R$ " + valorFinal.toFixed(2).replace(".", ",");
+
+    localStorage.setItem(
+        "valorTotal",
+        "R$ " + valorFinal.toFixed(2).replace(".", ",")
+    );
+
+    alert("Cupom aplicado com sucesso!");
+
+});
+
 btnCupom.addEventListener("click", () => {
 
     const cupom = document.getElementById("cupom").value.trim();
