@@ -62,16 +62,7 @@
                 <span>⚡ PIX</span>
             </label>
 
-            <label class="opcao-pagamento">
-                <input type="radio" name="pagamento" value="credito">
-                <span>💳 Cartão de Crédito</span>
-            </label>
-
-            <label class="opcao-pagamento">
-                <input type="radio" name="pagamento" value="debito">
-                <span>💳 Cartão de Débito</span>
-            </label>
-
+            
         </div>
 
         <div class="acoesCheckout">
@@ -179,72 +170,57 @@ btnCupom.addEventListener("click", async () => {
     alert("Cupom aplicado com sucesso!");
 });
 // =====================
-// BOTÃO PAGAMENTO
+// BOTÃO WHATSAPP
 // =====================
 
 const btnComprar = document.querySelector(".comprar");
 
-btnComprar.addEventListener("click", async () => {
+btnComprar.innerText = "ENVIAR PEDIDO PELO WHATSAPP";
+
+btnComprar.addEventListener("click", () => {
 
     const nome = localStorage.getItem("nomeCamisa");
     const numero = localStorage.getItem("numeroCamisa");
     const frase = localStorage.getItem("fraseCamisa");
     const extra = localStorage.getItem("extraCamisa");
+    const total = localStorage.getItem("valorTotal");
 
-    const total = Number(
-        localStorage.getItem("valorTotal")
-            .replace("R$", "")
-            .replace(",", ".")
-            .trim()
+    const cupom = document.getElementById("cupom").value || "Nenhum";
+
+    const mensagem =
+`🛒 *NOVO PEDIDO - MORRO DO 18 STORE*
+
+👕 *Nome:* ${nome}
+🔢 *Número:* ${numero}
+📝 *Frase:* ${frase}
+
+🎨 *Personalização:*
+${extra}
+
+🎟 *Cupom:* ${cupom}
+
+💰 *Valor:* ${total}
+
+━━━━━━━━━━━━━━
+
+⚡ *PAGAMENTO VIA PIX*
+
+Chave PIX:
+23135385752
+
+
+Após realizar o pagamento, envie o comprovante nesta conversa.
+
+⚠️ O pedido será produzido após a confirmação do pagamento.
+
+    window.open(
+        "https://wa.me/5521980648653?text=" +
+        encodeURIComponent(mensagem),
+        "_blank"
     );
 
-    const pagamento = document.querySelector(
-        'input[name="pagamento"]:checked'
-    ).value;
-
-    const resposta = await fetch("/api/create-payment", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            nome,
-            numero,
-            frase,
-            extra,
-            total,
-            pagamento
-        })
-    });
-
-    const dados = await resposta.json();
-
-    console.log(dados);
-
-    if (!resposta.ok) {
-        alert("Erro ao gerar pagamento.");
-        console.log(dados);
-        return;
-    }
-
-    if (pagamento === "pix") {
-
-        localStorage.setItem("qrCode", dados.qr_code);
-        localStorage.setItem("qrBase64", dados.qr_code_base64);
-
-        window.location.href = "pix.html";
-
-    } else if (pagamento === "credito") {
-
-        window.location.href = "credito.html";
-
-    } else {
-
-        window.location.href = "debito.html";
-
-    }
-
 });
+
 </script>
 </body>
 </html>
