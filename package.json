@@ -1,6 +1,7 @@
 {
   "type": "module",
   "dependencies": {
+    "@supabase/supabase-js": "^2.110.7",
     "mercadopago": "^3.2.0"
   }
 }

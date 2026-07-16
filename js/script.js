@@ -91,34 +91,5 @@ localStorage.setItem("fraseCamisa", frase);
 localStorage.setItem("extraCamisa", extra);
 localStorage.setItem("valorTotal", valorTotal.innerText);
 
-// Converte "R$ 15,00" para 15
-const total = valorTotal.innerText
-    .replace("R$", "")
-    .replace(",", ".")
-    .trim();
-
-const resposta = await fetch("/api/create-payment", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        nome,
-        numero,
-        frase,
-        extra,
-        total: Number(total)
-    })
-});
-
-const dados = await resposta.json();
-
-console.log(dados);
-
-if (!resposta.ok) {
-    alert(dados.erro || "Erro ao criar o PIX.");
-    return;
-}
-
-alert("PIX criado com sucesso!");
+window.location.href = "resumo.html";
 });

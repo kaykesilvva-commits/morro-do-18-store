@@ -31,8 +31,30 @@
 
         </div>
 
-        <h3>Forma de pagamento</h3>
+<div class="cupom-box">
 
+    <h3>🎟 Cupom de desconto</h3>
+
+    <div class="cupom-area">
+
+        <input
+            type="text"
+            id="cupom"
+            placeholder="Digite seu cupom">
+
+        <button
+            type="button"
+            id="aplicarCupom">
+
+            Aplicar
+
+        </button>
+
+    </div>
+
+</div>
+
+<h3>Forma de pagamento</h3>
         <div class="pagamentos">
 
     <label class="opcao-pagamento">
@@ -85,7 +107,23 @@ localStorage.getItem("extraCamisa");
 
 document.getElementById("resumoTotal").innerText =
 localStorage.getItem("valorTotal");
+const btnCupom = document.getElementById("aplicarCupom");
 
+btnCupom.addEventListener("click", () => {
+
+    const cupom = document.getElementById("cupom").value.trim();
+
+    if (cupom === "") {
+
+        alert("Digite um cupom.");
+
+        return;
+
+    }
+
+    alert("Cupom digitado: " + cupom);
+
+});
 </script>
 </body>
 </html>
