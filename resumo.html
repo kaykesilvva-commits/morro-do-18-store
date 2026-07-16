@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Resumo do Pedido</title>
+
 <link rel="stylesheet" href="css/style.css">
+
 </head>
 <body>
 
@@ -15,12 +17,17 @@
         <h2>Resumo do Pedido</h2>
 
         <div class="total-box">
+
             <p><strong>Nome:</strong> <span id="resumoNome"></span></p>
+
             <p><strong>Número:</strong> <span id="resumoNumero"></span></p>
+
             <p><strong>Frase:</strong> <span id="resumoFrase"></span></p>
+
             <p><strong>Personalização Extra:</strong> <span id="resumoExtra"></span></p>
 
             <h2 id="resumoTotal"></h2>
+
         </div>
 
         <div class="cupom-box">
@@ -101,10 +108,20 @@ localStorage.getItem("extraCamisa");
 document.getElementById("resumoTotal").innerText =
 localStorage.getItem("valorTotal");
 
+// =====================
 // CUPOM
+// =====================
+
 const btnCupom = document.getElementById("aplicarCupom");
 
+let cupomAplicado = false;
+
 btnCupom.addEventListener("click", async () => {
+
+    if (cupomAplicado) {
+        alert("Este pedido já possui um cupom.");
+        return;
+    }
 
     const cupom = document.getElementById("cupom").value.trim();
 
@@ -137,7 +154,15 @@ btnCupom.addEventListener("click", async () => {
             .trim()
     );
 
-    const valorFinal = valorOriginal - (valorOriginal * dados.desconto / 100);
+    let valorFinal;
+
+    if (dados.valor_fixo && Number(dados.valor_fixo) > 0) {
+        valorFinal = Number(dados.valor_fixo);
+    } else {
+        valorFinal =
+            valorOriginal -
+            (valorOriginal * Number(dados.desconto) / 100);
+    }
 
     document.getElementById("resumoTotal").innerText =
         "R$ " + valorFinal.toFixed(2).replace(".", ",");
@@ -147,24 +172,16 @@ btnCupom.addEventListener("click", async () => {
         "R$ " + valorFinal.toFixed(2).replace(".", ",")
     );
 
+    cupomAplicado = true;
+    btnCupom.disabled = true;
+    document.getElementById("cupom").disabled = true;
+
     alert("Cupom aplicado com sucesso!");
-
 });
-
-btnCupom.addEventListener("click", () => {
-
-    const cupom = document.getElementById("cupom").value.trim();
-
-    if (cupom === "") {
-        alert("Digite um cupom.");
-        return;
-    }
-
-    alert("Cupom digitado: " + cupom);
-
-});
-
+// =====================
 // BOTÃO PAGAMENTO
+// =====================
+
 const btnComprar = document.querySelector(".comprar");
 
 btnComprar.addEventListener("click", async () => {

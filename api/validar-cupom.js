@@ -25,7 +25,8 @@ export default async function handler(req, res) {
 
   return res.status(200).json({
     valido: true,
-    desconto: data.desconto
+    desconto: data.desconto,
+    valor_fixo: data.valor_fixo
   });
 
 }
