@@ -60,6 +60,9 @@ export default async function handler(req, res) {
 console.log("SUPABASE DATA:", data);
 console.log("SUPABASE ERROR:", error);
 
+console.log("SUPABASE DATA:", data);
+console.log("SUPABASE ERROR:", error);
+
     return res.status(200).json({
       id: resultado.id,
       qr_code: resultado.point_of_interaction.transaction_data.qr_code,
