@@ -187,7 +187,7 @@ btnComprar.addEventListener("click", () => {
 
     const cupom = document.getElementById("cupom").value || "Nenhum";
 
-    const mensagem =
+const mensagem =
 `🛒 *NOVO PEDIDO - MORRO DO 18 STORE*
 
 👕 *Nome:* ${nome}
@@ -208,16 +208,15 @@ ${extra}
 Chave PIX:
 23135385752
 
-
 Após realizar o pagamento, envie o comprovante nesta conversa.
 
-⚠️ O pedido será produzido após a confirmação do pagamento.
+⚠️ O pedido será produzido após a confirmação do pagamento.`;
 
-    window.open(
-        "https://wa.me/5521980648653?text=" +
-        encodeURIComponent(mensagem),
-        "_blank"
-    );
+window.open(
+    "https://wa.me/5521980648653?text=" +
+    encodeURIComponent(mensagem),
+    "_blank"
+);
 
 });
 
