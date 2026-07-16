@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Resumo do Pedido</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+<div class="personalizar-container">
+
+    <div class="formulario">
+
+        <h2>Resumo do Pedido</h2>
+
+        <div class="total-box">
+
+            <p><strong>Nome:</strong> <span id="resumoNome"></span></p>
+
+            <p><strong>Número:</strong> <span id="resumoNumero"></span></p>
+
+            <p><strong>Frase:</strong> <span id="resumoFrase"></span></p>
+
+            <p><strong>Personalização Extra:</strong> <span id="resumoExtra"></span></p>
+
+            <h2 id="resumoTotal">R$ 15,00</h2>
+
+        </div>
+
+        <h3>Forma de pagamento</h3>
+
+        <div class="pagamentos">
+
+    <label class="opcao-pagamento">
+        <input type="radio" name="pagamento" value="pix" checked>
+        <span>⚡ PIX</span>
+    </label>
+
+    <label class="opcao-pagamento">
+        <input type="radio" name="pagamento" value="credito">
+        <span>💳 Cartão de Crédito</span>
+    </label>
+
+    <label class="opcao-pagamento">
+        <input type="radio" name="pagamento" value="debito">
+        <span>💳 Cartão de Débito</span>
+    </label>
+<div class="acoesCheckout">
+
+    <a href="personalizar.html" class="voltarBtn">
+        ← Voltar
+    </a>
+
+    
+
+</div>
+</div>
+
+        <br><br>
+
+        <button class="comprar">
+            CONTINUAR PARA PAGAMENTO
+        </button>
+
+    </div>
+
+</div>
+<script>
+
+document.getElementById("resumoNome").innerText =
+localStorage.getItem("nomeCamisa");
+
+document.getElementById("resumoNumero").innerText =
+localStorage.getItem("numeroCamisa");
+
+document.getElementById("resumoFrase").innerText =
+localStorage.getItem("fraseCamisa");
+
+document.getElementById("resumoExtra").innerText =
+localStorage.getItem("extraCamisa");
+
+document.getElementById("resumoTotal").innerText =
+localStorage.getItem("valorTotal");
+
+</script>
+</body>
+</html>
