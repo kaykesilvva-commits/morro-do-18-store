@@ -24,7 +24,7 @@ export default async function handler(req, res) {
         description: "Compra Morro do 18 Store",
         payment_method_id: "pix",
         payer: {
-          email: "cliente@email.com",
+          email: "reimidia7@gmail.com",
           first_name: nome || "Cliente",
         }
       }
