@@ -1,6 +1,92 @@
-<script>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumo do Pedido</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
-document.getElementById("resumoNome").innerText =
+<div class="personalizar-container">
+
+    <div class="formulario">
+
+        <h2>Resumo do Pedido</h2>
+
+        <div class="total-box">
+            <p><strong>Nome:</strong> <span id="resumoNome"></span></p>
+            <p><strong>Número:</strong> <span id="resumoNumero"></span></p>
+            <p><strong>Frase:</strong> <span id="resumoFrase"></span></p>
+            <p><strong>Personalização Extra:</strong> <span id="resumoExtra"></span></p>
+
+            <h2 id="resumoTotal"></h2>
+        </div>
+
+        <div class="cupom-box">
+
+            <h3>🎟 Cupom de desconto</h3>
+
+            <div class="cupom-area">
+
+                <input
+                    type="text"
+                    id="cupom"
+                    placeholder="Digite seu cupom">
+
+                <button
+                    type="button"
+                    id="aplicarCupom">
+
+                    Aplicar
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <h3>Forma de pagamento</h3>
+
+        <div class="pagamentos">
+
+            <label class="opcao-pagamento">
+                <input type="radio" name="pagamento" value="pix" checked>
+                <span>⚡ PIX</span>
+            </label>
+
+            <label class="opcao-pagamento">
+                <input type="radio" name="pagamento" value="credito">
+                <span>💳 Cartão de Crédito</span>
+            </label>
+
+            <label class="opcao-pagamento">
+                <input type="radio" name="pagamento" value="debito">
+                <span>💳 Cartão de Débito</span>
+            </label>
+
+        </div>
+
+        <div class="acoesCheckout">
+
+            <a href="personalizar.html" class="voltarBtn">
+                ← Voltar
+            </a>
+
+        </div>
+
+        <br><br>
+
+        <button class="comprar">
+            CONTINUAR PARA PAGAMENTO
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+    document.getElementById("resumoNome").innerText =
 localStorage.getItem("nomeCamisa");
 
 document.getElementById("resumoNumero").innerText =
@@ -84,12 +170,17 @@ btnComprar.addEventListener("click", async () => {
 
         window.location.href = "pix.html";
 
+    } else if (pagamento === "credito") {
+
+        window.location.href = "credito.html";
+
     } else {
 
-        alert("Pagamento com cartão ainda será implementado.");
+        window.location.href = "debito.html";
 
     }
 
 });
-
 </script>
+</body>
+</html>
