@@ -15,7 +15,6 @@ export default async function handler(req, res) {
   const { nome, total } = req.body;
 
   try {
-
     const payment = new Payment(client);
 
     const resultado = await payment.create({
@@ -43,12 +42,9 @@ export default async function handler(req, res) {
     console.log(JSON.stringify(erro, null, 2));
 
     return res.status(500).json({
-        erro: erro.message,
-        detalhes: erro
+      erro: erro.message,
+      detalhes: erro
     });
 
-}
-
   }
-
 }
