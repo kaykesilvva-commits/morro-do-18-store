@@ -42,20 +42,23 @@ export default async function handler(req, res) {
       }
     });
 
-    await supabase
-      .from("pedidos")
-      .insert([
-        {
-          nome,
-          numero,
-          frase,
-          extra,
-          valor: total,
-          pagamento,
-          qr_code: resultado.point_of_interaction.transaction_data.qr_code,
-          status: "Aguardando pagamento"
-        }
-      ]);
+    const { data, error } = await supabase
+  .from("pedidos")
+  .insert([
+    {
+      nome,
+      numero,
+      frase,
+      extra,
+      valor: total,
+      pagamento,
+      qr_code: resultado.point_of_interaction.transaction_data.qr_code,
+      status: "Aguardando pagamento"
+    }
+  ]);
+
+console.log("SUPABASE DATA:", data);
+console.log("SUPABASE ERROR:", error);
 
     return res.status(200).json({
       id: resultado.id,
