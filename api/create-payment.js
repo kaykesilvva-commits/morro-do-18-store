@@ -39,11 +39,15 @@ export default async function handler(req, res) {
 
   } catch (erro) {
 
-    console.log(erro);
+    console.log("ERRO COMPLETO:");
+    console.log(JSON.stringify(erro, null, 2));
 
     return res.status(500).json({
-      erro: erro.message
+        erro: erro.message,
+        detalhes: erro
     });
+
+}
 
   }
 
