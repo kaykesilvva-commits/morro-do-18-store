@@ -1,96 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Resumo do Pedido</title>
-
-<link rel="stylesheet" href="css/style.css">
-
-</head>
-<body>
-
-<div class="personalizar-container">
-
-    <div class="formulario">
-
-        <h2>Resumo do Pedido</h2>
-
-        <div class="total-box">
-
-            <p><strong>Nome:</strong> <span id="resumoNome"></span></p>
-
-            <p><strong>Número:</strong> <span id="resumoNumero"></span></p>
-
-            <p><strong>Frase:</strong> <span id="resumoFrase"></span></p>
-
-            <p><strong>Personalização Extra:</strong> <span id="resumoExtra"></span></p>
-
-            <h2 id="resumoTotal">R$ 15,00</h2>
-
-        </div>
-
-<div class="cupom-box">
-
-    <h3>🎟 Cupom de desconto</h3>
-
-    <div class="cupom-area">
-
-        <input
-            type="text"
-            id="cupom"
-            placeholder="Digite seu cupom">
-
-        <button
-            type="button"
-            id="aplicarCupom">
-
-            Aplicar
-
-        </button>
-
-    </div>
-
-</div>
-
-<h3>Forma de pagamento</h3>
-        <div class="pagamentos">
-
-    <label class="opcao-pagamento">
-        <input type="radio" name="pagamento" value="pix" checked>
-        <span>⚡ PIX</span>
-    </label>
-
-    <label class="opcao-pagamento">
-        <input type="radio" name="pagamento" value="credito">
-        <span>💳 Cartão de Crédito</span>
-    </label>
-
-    <label class="opcao-pagamento">
-        <input type="radio" name="pagamento" value="debito">
-        <span>💳 Cartão de Débito</span>
-    </label>
-<div class="acoesCheckout">
-
-    <a href="personalizar.html" class="voltarBtn">
-        ← Voltar
-    </a>
-
-    
-
-</div>
-</div>
-
-        <br><br>
-
-        <button class="comprar">
-            CONTINUAR PARA PAGAMENTO
-        </button>
-
-    </div>
-
-</div>
 <script>
 
 document.getElementById("resumoNome").innerText =
@@ -107,6 +14,8 @@ localStorage.getItem("extraCamisa");
 
 document.getElementById("resumoTotal").innerText =
 localStorage.getItem("valorTotal");
+
+// CUPOM
 const btnCupom = document.getElementById("aplicarCupom");
 
 btnCupom.addEventListener("click", () => {
@@ -114,16 +23,73 @@ btnCupom.addEventListener("click", () => {
     const cupom = document.getElementById("cupom").value.trim();
 
     if (cupom === "") {
-
         alert("Digite um cupom.");
-
         return;
-
     }
 
     alert("Cupom digitado: " + cupom);
 
 });
+
+// BOTÃO PAGAMENTO
+const btnComprar = document.querySelector(".comprar");
+
+btnComprar.addEventListener("click", async () => {
+
+    const nome = localStorage.getItem("nomeCamisa");
+    const numero = localStorage.getItem("numeroCamisa");
+    const frase = localStorage.getItem("fraseCamisa");
+    const extra = localStorage.getItem("extraCamisa");
+
+    const total = Number(
+        localStorage.getItem("valorTotal")
+            .replace("R$", "")
+            .replace(",", ".")
+            .trim()
+    );
+
+    const pagamento = document.querySelector(
+        'input[name="pagamento"]:checked'
+    ).value;
+
+    const resposta = await fetch("/api/create-payment", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nome,
+            numero,
+            frase,
+            extra,
+            total,
+            pagamento
+        })
+    });
+
+    const dados = await resposta.json();
+
+    console.log(dados);
+
+    if (!resposta.ok) {
+        alert("Erro ao gerar pagamento.");
+        console.log(dados);
+        return;
+    }
+
+    if (pagamento === "pix") {
+
+        localStorage.setItem("qrCode", dados.qr_code);
+        localStorage.setItem("qrBase64", dados.qr_code_base64);
+
+        window.location.href = "pix.html";
+
+    } else {
+
+        alert("Pagamento com cartão ainda será implementado.");
+
+    }
+
+});
+
 </script>
-</body>
-</html>
