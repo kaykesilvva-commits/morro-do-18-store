@@ -1,4 +1,5 @@
 import { MercadoPagoConfig, Payment } from "mercadopago";
+import supabase from "../lib/supabase.js";
 
 const client = new MercadoPagoConfig({
   accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN,
@@ -12,26 +13,50 @@ export default async function handler(req, res) {
     });
   }
 
-  const { nome, total } = req.body;
+  const {
+    nome,
+    numero,
+    frase,
+    extra,
+    total,
+    pagamento
+  } = req.body;
 
   try {
+
     const payment = new Payment(client);
 
     const resultado = await payment.create({
-  body: {
-    transaction_amount: Number(total),
-    description: "Compra Morro do 18 Store",
-    payment_method_id: "pix",
-    payer: {
-      email: "reimidia7@gmail.com",
-      first_name: nome || "Cliente",
-      identification: {
-        type: "CPF",
-        number: "02411523726"
+      body: {
+        transaction_amount: Number(total),
+        description: "Compra Morro do 18 Store",
+        payment_method_id: "pix",
+        payer: {
+          email: "reimidia7@gmail.com",
+          first_name: nome || "Cliente",
+          identification: {
+            type: "CPF",
+            number: "02411523726"
+          }
+        }
       }
-    }
-  }
-});
+    });
+
+    await supabase
+      .from("pedidos")
+      .insert([
+        {
+          nome,
+          numero,
+          frase,
+          extra,
+          valor: total,
+          pagamento,
+          qr_code: resultado.point_of_interaction.transaction_data.qr_code,
+          status: "Aguardando pagamento"
+        }
+      ]);
+
     return res.status(200).json({
       id: resultado.id,
       qr_code: resultado.point_of_interaction.transaction_data.qr_code,
