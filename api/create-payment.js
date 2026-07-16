@@ -18,20 +18,20 @@ export default async function handler(req, res) {
     const payment = new Payment(client);
 
     const resultado = await payment.create({
-      body: {
-        transaction_amount: Number(total),
-        description: "Compra Morro do 18 Store",
-        payment_method_id: "pix",
-        payer: {
-  email: "reimidia7@gmail.com",
-  first_name: nome || "Cliente",
-  identification: {
-    type: "CPF",
-    number: "02411523726"
+  body: {
+    transaction_amount: Number(total),
+    description: "Compra Morro do 18 Store",
+    payment_method_id: "pix",
+    payer: {
+      email: "reimidia7@gmail.com",
+      first_name: nome || "Cliente",
+      identification: {
+        type: "CPF",
+        number: "02411523726"
+      }
+    }
   }
-}
-    });
-
+});
     return res.status(200).json({
       id: resultado.id,
       qr_code: resultado.point_of_interaction.transaction_data.qr_code,
